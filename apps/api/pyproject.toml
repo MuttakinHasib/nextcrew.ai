@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "api"
+version = "0.1.0"
+description = "Company Researcher"
+authors = ["Muttakin Islam Hasib <muttakinislamhasib@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.12,<=3.13"
+fastapi = {extras = ["all"], version = "^0.111.0"}
+crewai = {extras = ["tools"], version = "^0.32.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
