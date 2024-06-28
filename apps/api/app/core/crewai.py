@@ -1,3 +1,4 @@
+from app.core.agents import CompanyResearcherAgents
 from app.core.job_manager import append_event
 
 
@@ -11,6 +12,10 @@ class CompanyResearcherCrew:
             f"Setting up crew for {self.job_id} with companies {companies} and positions {positions}"
         )
         # TODO: SETUP AGENTS
+        agents = CompanyResearcherAgents()
+        research_manager = agents.research_manager(companies, positions)
+        company_research_agent = agents.company_research_agent()
+
         # TODO: SETUP TASKS
         # TODO: CREATE CREW
 
