@@ -1,7 +1,11 @@
 from dataclasses import dataclass
 from datetime import datetime
+from typing import List, Dict
 from threading import Lock
-from typing import Dict, List
+
+
+jobs_lock = Lock()
+jobs: Dict[str, "Job"] = {}
 
 
 @dataclass
@@ -17,15 +21,11 @@ class Job:
     result: str
 
 
-jobs_lock: Lock() # type: ignore
-jobs: Dict[str, "Job"] = {}
-
-
 def append_event(job_id: str, event_data: str):
     with jobs_lock:
-        if job_id in jobs:
-            print(f"Start Job: {job_id}")
+        if job_id not in jobs:
+            print("Job %s started", job_id)
             jobs[job_id] = Job(status="STARTED", events=[], result="")
         else:
-            print(f"Appending event for job")
-            jobs[job_id].events.append(Event(timestamp=datetime.now(), data=event_data))
+            print("Appending event for job %s: %s", job_id, event_data)
+        jobs[job_id].events.append(Event(timestamp=datetime.now(), data=event_data))

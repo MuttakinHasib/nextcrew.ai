@@ -1,11 +1,14 @@
-from tabnanny import verbose
 from crewai import Agent
 from langchain_openai import ChatOpenAI
+from crewai_tools import SerperDevTool
+from app.configs.settings import settings
 
 
 class CompanyResearcherAgents:
-    def __init__(self, company):
-        self.llm = ChatOpenAI(model="gpt-4o")
+    def __init__(self):
+        self.searchInternetTool = SerperDevTool()
+
+        self.llm = ChatOpenAI(api_key=settings.OPENAI_API_KEY, model="gpt-4o")  # type: ignore
         print("Setting up agents for company research")
 
     def research_manager(self, companies: list[str], positions: list[str]) -> Agent:
@@ -28,7 +31,9 @@ class CompanyResearcherAgents:
                     """,
             backstory="As a Company Research Manager, you are responsible for aggregating all the researched information into a list.",
             llm=self.llm,
-            tools=[self.searchInternetTool, self.youtubeSearchTool],
+            tools=[
+                self.searchInternetTool,
+            ],
             verbose=True,
             allow_delegation=True,
         )
@@ -48,7 +53,9 @@ class CompanyResearcherAgents:
             - Make sure you find the persons name who holds the position.
             - Do not generate fake information. Only return the information you find. Nothing else!
             """,
-            tools=[self.searchInternetTool, self.youtubeSearchTool],
+            tools=[
+                self.searchInternetTool,
+            ],
             llm=self.llm,
             verbose=True,
         )

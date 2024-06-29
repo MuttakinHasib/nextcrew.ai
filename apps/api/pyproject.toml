@@ -11,6 +11,7 @@ fastapi = {extras = ["all"], version = "^0.111.0"}
 crewai = {extras = ["tools"], version = "^0.32.2"}
 
 
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
